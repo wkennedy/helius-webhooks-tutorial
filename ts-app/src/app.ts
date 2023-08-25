@@ -1,28 +1,25 @@
-import express, { Request, Response } from 'express';
+import express, {Request, Response} from 'express';
 import bodyParser from 'body-parser';
 
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-// Middleware
+//We are expecting the body to contain valid JSON from the Helius request
 app.use(bodyParser.json());
 
-// POST endpoint
-app.post('/webhook', (req: Request, res: Response) => {
+//This is our actual webhook that is served locally at http://localhost:3000/webhook.
+//By using ngrok, the ngrok provided public url will map to our local webhook
+//https://3214-199-223-251-92.ngrok-free.app/webhook -> http://localhost:3000/webhook
+app.post('/webhook', (request: Request, response: Response) => {
 
-    const requestBody = req.body;
-    // Do something with the request body
-    console.log('Received POST request with data:', requestBody);
+    const requestBody = request.body;
+    //Print the JSON to the console
+    console.log('Data received by webook: ', requestBody);
 
-    // console.log(requestBody[0]);
-    // console.log(JSON.stringify(requestBody[1].accountData[1]));
-    // console.log(JSON.stringify(requestBody[2].accountData[2]));
-
-    // return res.json({ message: 'POST request successful', data: requestBody });
-    res.status(200).send('EVENT_RECEIVED');
-
+    //Send a response that we received and processed the request.
+    response.status(200).send('Webhook Request Received!');
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
