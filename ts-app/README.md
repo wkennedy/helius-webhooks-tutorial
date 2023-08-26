@@ -1,10 +1,10 @@
 Build
 
-    cargo build
+    npm install
 
 Run
 
-    cargo run
+    npm run start-server
 
 Test
 
